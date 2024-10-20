@@ -1,0 +1,11 @@
+version: 2
+sources: 
+  - name: stripe
+    database: testing
+    schema: stripe
+    tables:
+      - name: PAYMENT
+        loaded_at_field: _batched_at
+        freshness:
+          warn_after: {count: 20, period: day}
+          error_after: {count: 25, period: day}

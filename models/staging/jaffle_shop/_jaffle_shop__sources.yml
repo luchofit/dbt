@@ -1,0 +1,32 @@
+#Freshness: El bloque de freshness en este código se refiere a verificar qué tan recientes son los datos en la fuente jaffle_shop.
+
+#warn_after: {count: 12, period: hour}: Esto significa que dbt dará una advertencia si los datos de esta fuente no se han 
+#actualizado en más de 12 horas. Imagina que es como decir: "Si los datos no se han actualizado en medio día, te aviso".
+
+#error_after: {count: 24, period: hour}: Si los datos no se han actualizado en más de 24 horas, dbt va a lanzar un error, 
+#indicando que es un problema serio que los datos no se hayan actualizado en un día completo.
+
+version: 2
+
+sources: 
+  - name: jaffle_shop
+    database: testing
+    schema: jaffle_shop
+    freshness:
+          warn_after: {count: 20, period: day}
+          error_after: {count: 30, period: day}
+    loaded_at_field: _etl_loaded_at
+    tables:
+      - name: customers
+        columns:
+          - name: customer_id
+            tests:
+               - unique
+               - not_null                           
+        freshness : null
+      - name: orders
+        columns:
+          - name: order_id
+            tests:
+               - unique
+               - not_null  
