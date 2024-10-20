@@ -10,6 +10,7 @@ version: 2
 
 sources: 
   - name: jaffle_shop
+    description: clone of a Snowflake application database
     database: testing
     schema: jaffle_shop
     freshness:
@@ -18,15 +19,22 @@ sources:
     loaded_at_field: _etl_loaded_at
     tables:
       - name: customers
+        description: testing customers data
         columns:
-          - name: customer_id
+          #tener en cuenta que en el modelo doy el alias de customer id, pero debe 
+          #referenciarme el nombre original de la columna
+          - name: id
+            description: primary key for customer data
             tests:
                - unique
                - not_null                           
         freshness : null
       - name: orders
+        description: raw orders data 
         columns:
-          - name: order_id
+          # pilas aquí que antes el nombre de la columna tenía order_id y por ese motivo
+          # cuando generaba un dbt test me aparecia un invocation error y era por esa razon.
+          - name: id
             tests:
                - unique
                - not_null  
